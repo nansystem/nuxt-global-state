@@ -1,17 +1,28 @@
 <template>
-  <p>globalKey: {{ globalKey }}</p>
+  <div>
+    <p>{{ state.message }}</p>
+    <p>{{ state.code }}</p>
+    <button @click="clearError">clear error</button>
+    <button @click="setInputError">set error</button>
+    <NuxtLink to="/page2">go to page2</NuxtLink>
+  </div>
 </template>
 
 <script>
-import { defineComponent, inject } from '@nuxtjs/composition-api'
+import { defineComponent } from '@nuxtjs/composition-api'
+import { useError } from '~/composables/useError'
 
 export default defineComponent({
   setup() {
-    const globalKey = inject('globalKey')
+    const { state, clearError, setError } = useError()
 
-    console.log(globalKey)
+    const setInputError = () => {
+      setError({ message: 'setup error', code: 'SETUP_ERROR' })
+    }
     return {
-      globalKey,
+      state,
+      clearError,
+      setInputError,
     }
   },
 })
